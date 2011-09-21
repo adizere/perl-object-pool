@@ -6,15 +6,26 @@ use warnings;
 
 use vars qw( $VERSION $LOW_WATERMARK $HIGH_WATERMARK );
 
-
+use Carp;
+use Data::Dumper;
 
 our $VERSION = '0.01';
 
 our $LOW_WATERMARK = 3;
 our $HIGH_WATERMARK = 6;
-our $SPARE_WATERMARK = undef;
+our $SPARE_WATERMARK = undef; # don't use
 
 
+sub new {
+    my $class = shift();
+
+    croak "Object::Pool constructor needs an Object::PoolFactory"
+        unless( $_[0] && $_[0]->isa( 'Object::PoolFactory' ) );
+
+    bless my $self = {}, $class;
+
+    return $self;
+}
 
 1; # End of Object::Pool
 
@@ -165,7 +176,7 @@ The calling object.
         print "All elements from the pool are busy, try later?";
     }
     print "The element returned is now in the state BUSY";
-    # ... 
+    # ...
 
 B<Description:>
 
@@ -194,7 +205,7 @@ A free/new element from the pool if any was found, and undef if none was found.
         print "All elements from the pool are busy, try later?";
     }
     print "The returned element is in the state FREE or in the state NEW";
-    # ... 
+    # ...
 
 B<Description:>
 
