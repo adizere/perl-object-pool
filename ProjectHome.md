@@ -1,0 +1,1 @@
+The "Object Pool" design pattern implemented in perl. Also a mean of getting used with git.
